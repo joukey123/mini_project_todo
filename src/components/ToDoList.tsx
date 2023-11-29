@@ -1,15 +1,37 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import CreateToDo from "./CreateToDo";
-import { Categoties, categotyState, toDoAtom, toDoSelector } from "../atoms";
+import {
+  Categoties,
+  addCategoryState,
+  categotyState,
+  toDoAtom,
+  toDoSelector,
+} from "../atoms";
 import ToDo from "./ToDo";
+import { useForm } from "react-hook-form";
+
+interface IAddCategory {
+  category: string;
+}
 
 function TodoList() {
+  const { register, handleSubmit } = useForm<IAddCategory>();
+  const setCategorise = useSetRecoilState(addCategoryState);
+  const addCategorise = useRecoilValue(addCategoryState);
+  const onValid = (data: IAddCategory) => {
+    if (data.category !== "")
+      setCategorise((oldCategory) => [
+        { category: data.category, id: Date.now() },
+        ...oldCategory,
+      ]);
+  };
+
   const toDos = useRecoilValue(toDoSelector);
   const [categoty, setCategory] = useRecoilState(categotyState);
   const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
     setCategory(event.currentTarget.value as any);
   };
-  console.log(toDos);
+
   return (
     <div>
       <h1>To Dos</h1>
@@ -18,7 +40,16 @@ function TodoList() {
         <option value={Categoties.ToDo}>ToDo</option>
         <option value={Categoties.Doing}>Doing</option>
         <option value={Categoties.Done}>Done</option>
+        {addCategorise.map((item) => (
+          <option key={item.id} value={item.category}>
+            {item.category}
+          </option>
+        ))}
       </select>
+      <form onSubmit={handleSubmit(onValid)}>
+        <input {...register("category")} placeholder="add categoty" />
+        <button> Add </button>
+      </form>
       <CreateToDo />
       {toDos?.map((toDo) => (
         <ToDo key={toDo.id} {...toDo} />
