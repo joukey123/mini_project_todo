@@ -1,33 +1,36 @@
-import { useForm } from "react-hook-form";
+import { useRecoilState, useRecoilValue } from "recoil";
+import CreateToDo from "./CreateToDo";
+import { Categoties, categotyState, toDoAtom, toDoSelector } from "../atoms";
+import ToDo from "./ToDo";
 
-function TodoList(){
-
-    interface IForm {
-        toDo : string;
-    }
-    
-    const { register, handleSubmit, setValue } = useForm<IForm>();
-
-    const handleVaild = (data:IForm) => {
-        console.log("add to do",data.toDo)
-        setValue("toDo", "");
-    }
-    
-    return (
-        <div>
-            <form onSubmit={handleSubmit(handleVaild)}>
-                <input {...register("toDo") } placeholder="write a todo"></input>
-                <button>Add</button>
-            </form>
-        </div>
-    )
+function TodoList() {
+  const toDos = useRecoilValue(toDoSelector);
+  const [categoty, setCategory] = useRecoilState(categotyState);
+  const onInput = (event: React.FormEvent<HTMLSelectElement>) => {
+    setCategory(event.currentTarget.value as any);
+  };
+  console.log(toDos);
+  return (
+    <div>
+      <h1>To Dos</h1>
+      <hr />
+      <select value={categoty} onInput={onInput}>
+        <option value={Categoties.ToDo}>ToDo</option>
+        <option value={Categoties.Doing}>Doing</option>
+        <option value={Categoties.Done}>Done</option>
+      </select>
+      <CreateToDo />
+      {toDos?.map((toDo) => (
+        <ToDo key={toDo.id} {...toDo} />
+      ))}
+    </div>
+  );
 }
 // interface IForm {
 //     email: string;
 //     password : string;
 //     confirmPassword : string;
 // }
-
 
 // function TodoList() {
 
@@ -45,20 +48,20 @@ function TodoList(){
 
 //     return (
 //                 <div>
-//                     <form style={{display:"flex", flexDirection:"column", maxWidth:500}} 
+//                     <form style={{display:"flex", flexDirection:"column", maxWidth:500}}
 //                     onSubmit={handleSubmit(onValid)}>
-                        
+
 //                         <input {...register("email", {
-//                             required:"필수 입력 사항입니다." , 
+//                             required:"필수 입력 사항입니다." ,
 //                             pattern: {
 //                                 value: /^[A-Za-z0-9._%+-]+@naver\.com$/,
 //                                 message : "naver 주소만 입력이 가능합니다."
-//                             }})} 
+//                             }})}
 //                             placeholder="email"/>
 //                         <span> {errors?.email?.message} </span>
-                        
+
 //                         <input {...register("password", {
-//                             required:"필수 입력 사항입니다.", 
+//                             required:"필수 입력 사항입니다.",
 //                             minLength:{
 //                                 value:10,
 //                                 message: "10자 이상 입력하세요."
@@ -71,7 +74,7 @@ function TodoList(){
 //                         <span> {errors?.password?.message} </span>
 
 //                         <input {...register("confirmPassword", {
-//                             required:"필수 사항 입력입니다.", 
+//                             required:"필수 사항 입력입니다.",
 //                             minLength:{
 //                                 value:10,
 //                                 message: "10자 이상 입력하세요."
@@ -81,7 +84,7 @@ function TodoList(){
 //                         <button>Add</button>
 //                     </form>
 //                 </div>
-               
+
 //             )
 // }
 export default TodoList;

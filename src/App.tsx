@@ -1,6 +1,5 @@
-import { createGlobalStyle } from 'styled-components';
-import TodoList from './TodoList';
-
+import { createGlobalStyle } from "styled-components";
+import TodoList from "./components/ToDoList";
 
 const GlobalStyle = createGlobalStyle`
   html, body, div, span, applet, object, iframe,
@@ -54,14 +53,14 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
   body {
-    background-color: ${props => props.theme.bgColor};
-    color: ${props => props.theme.textColor};
+    background-color: ${(props) => props.theme.bgColor};
+    color: ${(props) => props.theme.textColor};
   }
   a {
     text-decoration: none;
     color:inherit
   }
-`
+`;
 
 function App() {
   return (
