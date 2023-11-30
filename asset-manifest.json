@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/mini_project_todo/static/js/main.521cb7ca.js",
+    "main.js": "/mini_project_todo/static/js/main.65d8141f.js",
     "index.html": "/mini_project_todo/index.html",
-    "main.521cb7ca.js.map": "/mini_project_todo/static/js/main.521cb7ca.js.map"
+    "main.65d8141f.js.map": "/mini_project_todo/static/js/main.65d8141f.js.map"
   },
   "entrypoints": [
-    "static/js/main.521cb7ca.js"
+    "static/js/main.65d8141f.js"
   ]
 }
