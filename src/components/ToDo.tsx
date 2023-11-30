@@ -4,6 +4,7 @@ import { Categoties, IToDo, addCategoryState, toDoAtom } from "../atoms";
 function ToDo({ text, category, id }: IToDo) {
   const setToDos = useSetRecoilState(toDoAtom);
   const CategoryState = useRecoilValue(addCategoryState);
+  const caFn = CategoryState.map((item) => item.category);
   const onClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const {
       currentTarget: { name },
@@ -50,12 +51,14 @@ function ToDo({ text, category, id }: IToDo) {
           Done
         </button>
       )}
-      {category !== CategoryState.map((item) => item.category).join() &&
-        CategoryState.map((item) => (
-          <button name={item.category} onClick={onClick}>
-            {item.category}
-          </button>
-        ))}
+      {caFn.map(
+        (item) =>
+          item !== category && (
+            <button name={item} onClick={onClick}>
+              {item}
+            </button>
+          )
+      )}
     </li>
   );
 }
