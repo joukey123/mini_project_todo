@@ -40,7 +40,7 @@ function TodoList() {
         <option value={Categoties.ToDo}>ToDo</option>
         <option value={Categoties.Doing}>Doing</option>
         <option value={Categoties.Done}>Done</option>
-        {addCategorise.map((item) => (
+        {addCategorise?.map((item) => (
           <option key={item.id} value={item.category}>
             {item.category}
           </option>
